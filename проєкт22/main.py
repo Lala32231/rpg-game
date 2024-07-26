@@ -18,13 +18,15 @@ image5 = "https://beebom.com/wp-content/uploads/2023/09/sukuna-without-an-arm-he
 image6 = "https://static.wikia.nocookie.net/jujutsu-kaisen/images/3/3c/Yoshinobu_Gakuganji_%28Anime%29.png/revision/latest?cb=20201025154546"
 gif3 = "https://giffiles.alphacoders.com/221/221258.gif"
 gif4 = "https://i.pinimg.com/originals/59/da/0b/59da0badb6c8a4d9b58aeb37ccafc101.gif"
-image8 = "https://preview.redd.it/another-question-this-time-about-jogo-and-hanami-v0-r6gw5i77xttb1.png?width=640&format=png&auto=webp&s=46e0e262fc461768d976ff0e1b9173f608baed79"
+image8 = "https://img.spoilerhat.com/img/?url=https://cdn.onepiecechapters.com/file/CDN-M-A-N/jjk_221_gain_006.png"
 gif5 = "https://media1.tenor.com/m/nQAUm8WI1rsAAAAC/gojo-run.gif"
 gif6 = "https://i.pinimg.com/originals/14/fc/7d/14fc7d1120735dd8e2064a38913ea339.gif"
 gif7 = "https://media1.tenor.com/m/wFIKhcjvszYAAAAC/gojo-satoru-breathing.gif"
 gif8 = "https://media.tenor.com/eu4_AX5o5swAAAAM/prison-realm-jujutsu-kaisen.gif"
 image9 = "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2023/09/playing-with-the-death-jujutsu-kaisen.jpg"
-image10 = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQo8jlPu26VFoY8rf1eQMh3O7VCLeVMOZwOHfvBJtFnoiZTxnTn"
+image10 = "https://a.storyblok.com/f/178900/960x540/b27a92a6d0/gojo-prism-realm.jpg/m/filters:quality(95)format(webp)"
+image11 = "https://img.spoilerhat.com/img/?url=https://cdn.onepiecechapters.com/file/CDN-M-A-N/jjk_221_gain_010.png"
+image12 = "https://img.spoilerhat.com/img/?url=https://cdn.onepiecechapters.com/file/CDN-M-A-N/jjk_221_gain_012.png"
 loot_items = [
     {"name": "морква", "hp": 20, "cost": 5},
     {"name": "рамен", "hp": 50, "cost": 10},
@@ -184,14 +186,15 @@ def handle_text(message):
             game.player.hp -= game.jogo.dmg
             time.sleep(0.8)
             bot.send_message(message.chat.id, f"Ґоджо б'є у відповідь! удар - {game.player.dmg}\n хп Джоґо - {game.jogo.hp}")
-        bot.send_document(message.chat.id, gif3)
-        game.hanami.hp -= 200
-        bot.send_message(message.chat.id, "Ханамі вдовбало у стінку")
-        bot.send_message(message.chat.id, "--Ханамі переможено!-- ти отримуєш +20 монет")
-        game.player.coins += 20
-        random_items = random.sample(loot_items, 4)
-        bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
-        bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
+        if game.hanami.hp <= 0:
+            bot.send_document(message.chat.id, gif3)
+            game.hanami.hp -= 200
+            bot.send_message(message.chat.id, "Ханамі вдовбало у стінку")
+            bot.send_message(message.chat.id, "--Ханамі переможено!-- ти отримуєш +20 монет")
+            game.player.coins += 20
+            random_items = random.sample(loot_items, 4)
+            bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
+            bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
     elif message.text.startswith(tuple(f'{item["cost"]}💰 {item["name"]}' for item in loot_items)):
         selected_item = None
         for item in loot_items:
@@ -212,7 +215,7 @@ def handle_text(message):
             else:
                 game.player.hp += selected_item["hp"]
                 game.player.coins -= selected_item["cost"]
-                bot.send_message(message.chat.id, f"Ти з'їв {selected_item['name']} -у і отримав {selected_item['hp']} хп. Твоє здоров'я тепер {game.player.hp}", reply_markup=create_reply_keyboard6())
+                bot.send_message(message.chat.id, f"Ти з'їв {selected_item['name']}-у і отримав {selected_item['hp']} хп. Твоє здоров'я тепер {game.player.hp}", reply_markup=create_reply_keyboard6())
         else:
             bot.send_message(message.chat.id, "Недостатньо грошей або ти витратив всі пурпурові.", reply_markup=create_reply_keyboard6())
 
@@ -221,11 +224,11 @@ def handle_text(message):
     if message.text == "Захист":
         bot.send_message(message.chat.id, f"Це було правильним рішенням, Ти захистився і отримав 0 урону!")
         bot.send_message(message.chat.id, f"-Джоґо тікає!-")
-        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття ______ 2. Використати розширення володінь ")
+        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь", reply_markup=types.ReplyKeyboardRemove())
     if message.text == "Удар":
         game.player.hp -= 100
         bot.send_message(message.chat.id, f"Спроба атакувати виявилася невдалою, -100 хп")
-        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь")
+        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь", reply_markup=types.ReplyKeyboardRemove())
     if message.text == '2':
         bot.send_message(message.chat.id, f"Свідомість людей не здатна витримати ваше розширення володінь, але якщо використати його на 0,2 секунди, то людський мозок не встигне отримати негативний ефект вашого рв. У вас є 0,2 сек на знищення усіх проклять. Швидше!", reply_markup=create_reply_keyboard8())
         
@@ -242,27 +245,34 @@ def handle_text(message):
             bot.send_message(message.chat.id, f"Хтось був ззаду!")
             bot.send_message(message.chat.id, f"Це.. Гето Сугуру! Чи.. Як це може бути? Він повинен бути мертвим.")
             bot.send_message(message.chat.id, f"Це не правда, це не може бути він")
-            bot.send_message(message.chat.id, f"Гето: тільки не злякайся")
+            bot.send_message(message.chat.id, f"*Гето*: тільки не злякайся", parse_mode="Markdown")
             bot.send_photo(message.chat.id, image9)
             bot.send_message(message.chat.id, f"Перед тобою - Тюремне царство. Через хвилину воно може тебе запечатати")
-            bot.send_message(message.chat.id, f"Доведеться битись")
-            if message.text == 'Далі ->':
-                bot.send_message(message.chat.id, f"Ти маєш: {game.player.hp} здоров'я, {game.player.dmg} сили, {game.player.coins} гривень, {game.player.superhit} супер ударів.")
-                while game.player.hp >= 50:
-                    time.sleep(0.8)
-                    bot.send_message(message.chat.id, f"Гето атакує Ґоджо! удар - {game.hanami.dmg}\n хп Ґоджо - {game.player.hp}")
-                    game.player.hp -= game.geto.dmg
-                    time.sleep(0.8)
-                    bot.send_message(message.chat.id, f"Ґоджо б'є у відповідь! удар - {game.player.dmg}\n хп Гето - {game.hanami.hp}")
-                    game.geto.hp -= game.player.dmg
-                bot.send_message(message.chat.id, f"В тебе занадто мало хп щоб битись, тебе запечатали!", reply_markup=ReplyKeyboardRemove())
-                bot.send_document(message.chat.id, gif8)
-                for i in range(1, 61):
-                    time.sleep(1)
-                    if i % 10 == 0:
-                        bot.send_message(message.chat.id, f"{i}..")
-                        if i == 30:
-                            bot.send_photo(message.chat.id, image10)
+            bot.send_message(message.chat.id, f"Доведеться битись", reply_markup=create_reply_keyboard9())
+    if message.text == 'Далі ->':
+        bot.send_message(message.chat.id, f"Ти маєш: {game.player.hp} здоров'я, {game.player.dmg} сили, {game.player.coins} гривень, {game.player.superhit} супер ударів.", reply_markup=ReplyKeyboardRemove())
+        while game.player.hp >= 50:
+            time.sleep(0.8)
+            bot.send_message(message.chat.id, f"Гето атакує Ґоджо! удар - {game.hanami.dmg}\n хп Ґоджо - {game.player.hp}")
+            game.player.hp -= game.geto.dmg
+            time.sleep(0.8)
+            bot.send_message(message.chat.id, f"Ґоджо б'є у відповідь! удар - {game.player.dmg}\n хп Гето - {game.hanami.hp}")
+            game.geto.hp -= game.player.dmg
+        bot.send_message(message.chat.id, f"В тебе занадто мало хп щоб битись, тебе запечатали! Тобі доведеться почекати ")
+        bot.send_document(message.chat.id, gif8)
+        for i in range(1, 61):
+            time.sleep(1)
+            if i % 10 == 0:
+                bot.send_message(message.chat.id, f"{i}..")
+                if i == 30:
+                    bot.send_photo(message.chat.id, image10)
+                bot.send_photo(message.chat.id, image8)
+                bot.send_message(message.chat.id, f"Ти потрібен. Тебе розпечатав янгол, але у ту ж секунду ти телепортнувсь прямо до сукуни")
+                bot.send_message(message.chat.id, f"То почнеться ж бій")
+                bot.send_photo(message.chat.id, image11)
+                bot.send_message(message.chat.id, f"ФІОЛЕТОВИЙ")
+                bot.send_photo(message.chat.id, image12)
+
     if message.text == '1':
         bot.send_message(message.chat.id, f"Ви не встигаєте знищити прокляття, всі люди вмерли, ви програли\n Хочте ще раз?", reply_markup=create_reply_keyboard())
 
