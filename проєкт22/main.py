@@ -27,6 +27,9 @@ image9 = "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2023/0
 image10 = "https://a.storyblok.com/f/178900/960x540/b27a92a6d0/gojo-prism-realm.jpg/m/filters:quality(95)format(webp)"
 image11 = "https://img.spoilerhat.com/img/?url=https://cdn.onepiecechapters.com/file/CDN-M-A-N/jjk_221_gain_010.png"
 image12 = "https://img.spoilerhat.com/img/?url=https://cdn.onepiecechapters.com/file/CDN-M-A-N/jjk_221_gain_012.png"
+image13 = "https://i.ytimg.com/vi/nKexlXizt0s/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGD4gQihyMA8=&rs=AOn4CLB-koT2-SPiN2yOuNxB6uMQ1FNVLQ"
+gif9 = "https://i.pinimg.com/originals/5e/62/c1/5e62c1e3a0b372190a799434b3086c81.gif"
+speed = 0
 loot_items = [
     {"name": "морква", "hp": 20, "cost": 5},
     {"name": "рамен", "hp": 50, "cost": 10},
@@ -151,6 +154,18 @@ def create_reply_keyboard9():
     markup.add(btn1)
     return markup
 
+def create_reply_keyboard10():
+    markup = types.ReplyKeyboardMarkup(row_width=1)
+    btn1 = types.KeyboardButton('Бій етап 1')
+    markup.add(btn1)
+    return markup
+
+def create_reply_keyboard11():
+    markup = types.ReplyKeyboardMarkup(row_width=1)
+    btn1 = types.KeyboardButton('Бій етап 2')
+    markup.add(btn1)
+    return markup
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     game.player = Player("Ґоджо")
@@ -224,11 +239,11 @@ def handle_text(message):
     if message.text == "Захист":
         bot.send_message(message.chat.id, f"Це було правильним рішенням, Ти захистився і отримав 0 урону!")
         bot.send_message(message.chat.id, f"-Джоґо тікає!-")
-        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь", reply_markup=types.ReplyKeyboardRemove())
+        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь\n (1 / 2)", reply_markup=types.ReplyKeyboardRemove())
     if message.text == "Удар":
         game.player.hp -= 100
         bot.send_message(message.chat.id, f"Спроба атакувати виявилася невдалою, -100 хп")
-        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь", reply_markup=types.ReplyKeyboardRemove())
+        bot.send_message(message.chat.id, "Махіто перетворив занадто велику кількість людей на проклядих духів, тому вам варто зупинити цей процес, що ви виберете?0\n 1. Знищити прокляття / 2. Використати розширення володінь\n (1 / 2)", reply_markup=types.ReplyKeyboardRemove())
     if message.text == '2':
         bot.send_message(message.chat.id, f"Свідомість людей не здатна витримати ваше розширення володінь, але якщо використати його на 0,2 секунди, то людський мозок не встигне отримати негативний ефект вашого рв. У вас є 0,2 сек на знищення усіх проклять. Швидше!", reply_markup=create_reply_keyboard8())
         
@@ -258,7 +273,7 @@ def handle_text(message):
             time.sleep(0.8)
             bot.send_message(message.chat.id, f"Ґоджо б'є у відповідь! удар - {game.player.dmg}\n хп Гето - {game.hanami.hp}")
             game.geto.hp -= game.player.dmg
-        bot.send_message(message.chat.id, f"В тебе занадто мало хп щоб битись, тебе запечатали! Тобі доведеться почекати ")
+        bot.send_message(message.chat.id, f"В тебе занадто мало хп щоб битись, тебе запечатали! Тобі доведеться почекати")
         bot.send_document(message.chat.id, gif8)
         for i in range(1, 61):
             time.sleep(1)
@@ -266,13 +281,115 @@ def handle_text(message):
                 bot.send_message(message.chat.id, f"{i}..")
                 if i == 30:
                     bot.send_photo(message.chat.id, image10)
-                bot.send_photo(message.chat.id, image8)
-                bot.send_message(message.chat.id, f"Ти потрібен. Тебе розпечатав янгол, але у ту ж секунду ти телепортнувсь прямо до сукуни")
-                bot.send_message(message.chat.id, f"То почнеться ж бій")
-                bot.send_photo(message.chat.id, image11)
-                bot.send_message(message.chat.id, f"ФІОЛЕТОВИЙ")
-                bot.send_photo(message.chat.id, image12)
+                if i == 60:
+                    bot.send_photo(message.chat.id, image8)
+                    bot.send_message(message.chat.id, f"Ти потрібен. Тебе розпечатав янгол, але у ту ж секунду ти телепортнувсь прямо до сукуни")
+                    bot.send_message(message.chat.id, f"То почнеться ж бій")
+                    bot.send_photo(message.chat.id, image11)
+                    bot.send_message(message.chat.id, f"ФІОЛЕТОВИЙ")
+                    game.sukuna.hp -= 15
+                    bot.send_photo(message.chat.id, image12)
+                    bot.send_message(message.chat.id, f"Сукуна ухильнувся. -15 хп")
+                    bot.send_message(message.chat.id, f"--Етап 1--", reply_markup=create_reply_keyboard2())
+    if message.text == 'інвентар':
+        random_items = random.sample(loot_items, 4)
+        bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
+        bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
+    if message.text == 'бій':
+        bot.send_message(message.chat.id, f"Вибери дію:", reply_markup=create_reply_keyboard3())
+    if message.text == 'захист':
+        ran = random(1, 2)
+        if ran == 1:
+            bot.send_message(message.chat.id, f"Тобі повезло, ти захистився. Удар по сукуні -200 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
+            game.sukuna.hp -= 200
+        if ran == 2:
+            bot.send_message(message.chat.id, f"Тобі не повезло, ти не зміг захиститись. Удар по тобі -100 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
+            game.player.hp -= 100
+    if message.text == 'удар':
+        bot.send_message(message.chat.id, f"Ти атакував сукуну. Удар -100 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
+    if message.text == '🫸🔴🔵🫷🤌🫴⏤͟͟🟣(3 на гру)':
+        bot.send_document(message.chat.id, gif1)
+        bot.send_message(message.chat.id, f"Красні сіні - фіолетовий, -300 хп сукуні", reply_markup=create_reply_keyboard10(random_items))
+        game.sukuna.hp -= 300
+        game.player.superhit -= 1 
+        if game.player.superhit == 0:
+            bot.send_message(message.chat.id, f"У вас закінчились пурпурові", reply_markup=create_reply_keyboard10(random_items))
+    if message.text == 'Бій етап 1':
+        while game.sukuna.hp >= 600:
+            time.sleep(0.8)
+            bot.send_message(message.chat.id, f"Сукуна атакує Ґоджо! удар - {game.sukuna.dmg}\n хп Ґоджо - {game.player.hp}")
+            game.player.hp -= game.sukuna.dmg
+            time.sleep(0.8)
+            bot.send_message(message.chat.id, f"Ґоджо б'є у відповідь! удар - {game.player.dmg}\n хп Сукуни - {game.sukuna.hp}")
+            game.sukuna.hp -= game.player.dmg
 
+            bot.send_message(message.chat.id, f"--Етап 2--")
+            game.player.dmg += 30
+            game.sukuna.dmg += 25
+            bot.send_message(message.chat.id, f"Підвищення урону!")
+        if message.text == 'інвентар':
+            random_items = random.sample(loot_items, 4)
+            bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
+            bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
+        if message.text == 'бій':
+            bot.send_message(message.chat.id, f"Вибери дію:", reply_markup=create_reply_keyboard3())
+        if message.text == 'захист':
+            ran = random(1, 2)
+            if ran == 1:
+                bot.send_message(message.chat.id, f"Тобі повезло, ти захистився. Удар по сукуні -200 здоров'я!", reply_markup=create_reply_keyboard11())
+                game.sukuna.hp -= 200
+            if ran == 2:
+                bot.send_message(message.chat.id, f"Тобі не повезло, ти не зміг захиститись. Удар по тобі -100 здоров'я!", reply_markup=create_reply_keyboard11())
+                game.player.hp -= 100
+            if message.text == 'удар':
+                bot.send_message(message.chat.id, f"Ти атакував сукуну. Удар -100 здоров'я!", reply_markup=create_reply_keyboard11())
+            if message.text == '🫸🔴🔵🫷🤌🫴⏤͟͟🟣(3 на гру)':
+                bot.send_document(message.chat.id, gif1)
+                bot.send_message(message.chat.id, f"Красні сіні - фіолетовий", reply_markup=create_reply_keyboard11())
+                game.sukuna.hp -= 300
+                game.player.superhit -= 1
+                if game.player.superhit == 0:
+                    bot.send_message(message.chat.id, f"У вас закінчились пурпурові", reply_markup=create_reply_keyboard11(random_items))
+        if message.text == 'Бій етап 2':
+            while game.sukuna.hp <= 0:
+                time.sleep(0.8)
+                bot.send_message(message.chat.id, f"Сукуна атакує Ґоджо! удар - {game.sukuna.dmg}\n хп Ґоджо - {game.player.hp}")
+                game.player.hp -= game.sukuna.dmg
+                time.sleep(0.8)
+                bot.send_message(message.chat.id, f"Ґоджо б'є у відповідь! удар - {game.player.dmg}\n хп Сукуни - {game.sukuna.hp}")
+                game.sukuna.hp -= game.player.dmg
+            bot.send_message(message.chat.id, f"Сукуна застосовує розширення території!")
+            bot.send_document(message.chat.id, gif2)
+            bot.send_message(message.chat.id, f"-1000 здоров'я!")
+            bot.send_photo(message.chat.id, image4)
+            time.sleep(1)
+            bot.send_message(message.chat.id, f"...")
+            time.sleep(1)
+            bot.send_message(message.chat.id, f"це не все?")
+            bot.send_message(message.chat.id, f"*Шіканоко*: Живи!", parse_mode="Markdown")
+            bot.send_photo(message.chat.id, image13)
+            bot.send_message(message.chat.id, f"ЩОО?!?! ШІКАНОКО!??!😱😱")
+            bot.send_message(message.chat.id, f"+1200 здоров'я!")
+            bot.send_message(message.chat.id, f"*Шіканоко*: Дивись не програй!")
+            bot.send_message(message.chat.id, f"Ґоджо завдає удару!")
+            bot.send_message(message.chat.id, f"*宿儺*: 何か…", parse_mode="Markdown")
+            bot.send_message(message.chat.id, f"Чому не на державній?")
+            bot.send_message(message.chat.id, f"Все задовбав")
+            bot.send_document(message.chat.id, gif9)
+            game.sukuna.hp -= 1000
+            bot.send_message(message.chat.id, f"--Сукуну переможено--")
+            bot.send_message(message.chat.id, f"💭: А я казав, що я непереможний хехе..")
+            time.sleep(1)
+            bot.send_message(message.chat.id, f"О! Директор!")
+            bot.send_photo(message.chat.id, image6)
+            bot.send_message(message.chat.id, f"йоу харош бро")
+            if game.player.hp <= 0:
+                bot.send_message(message.chat.id, f"ну ти і канєшно лошара")
+                bot.send_photo(message.chat.id, image4)
+                time.sleep(1000000000000000000000000)
+    # if game.sukuna.hp <= 0:
+    #     bot.send_message(message.chat.id, f"молодець")
+    #     bot.send_photo(message.chat.id, image5)
     if message.text == '1':
         bot.send_message(message.chat.id, f"Ви не встигаєте знищити прокляття, всі люди вмерли, ви програли\n Хочте ще раз?", reply_markup=create_reply_keyboard())
 
