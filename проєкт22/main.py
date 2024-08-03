@@ -232,7 +232,7 @@ def handle_text(message):
                 game.player.coins -= selected_item["cost"]
                 bot.send_message(message.chat.id, f"Ти з'їв {selected_item['name']}-у і отримав {selected_item['hp']} хп. Твоє здоров'я тепер {game.player.hp}", reply_markup=create_reply_keyboard6())
         else:
-            bot.send_message(message.chat.id, "Недостатньо грошей або ти витратив всі пурпурові.", reply_markup=create_reply_keyboard6())
+            bot.send_message(message.chat.id, "Недостатньо грошей", reply_markup=create_reply_keyboard6())
 
         bot.send_document(message.chat.id, gif4)
         bot.send_message(message.chat.id, f"Чосо атакує ззаду!", reply_markup=create_reply_keyboard6())
@@ -293,27 +293,30 @@ def handle_text(message):
                     bot.send_message(message.chat.id, f"--Етап 1--", reply_markup=create_reply_keyboard2())
     if message.text == 'інвентар':
         random_items = random.sample(loot_items, 4)
+        for item in random_items:
+            item["hp"] *= 3 
         bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
         bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
-    if message.text == 'бій':
-        bot.send_message(message.chat.id, f"Вибери дію:", reply_markup=create_reply_keyboard3())
-    if message.text == 'захист':
-        ran = random(1, 2)
-        if ran == 1:
-            bot.send_message(message.chat.id, f"Тобі повезло, ти захистився. Удар по сукуні -200 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
-            game.sukuna.hp -= 200
-        if ran == 2:
-            bot.send_message(message.chat.id, f"Тобі не повезло, ти не зміг захиститись. Удар по тобі -100 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
-            game.player.hp -= 100
-    if message.text == 'удар':
-        bot.send_message(message.chat.id, f"Ти атакував сукуну. Удар -100 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
-    if message.text == '🫸🔴🔵🫷🤌🫴⏤͟͟🟣(3 на гру)':
-        bot.send_document(message.chat.id, gif1)
-        bot.send_message(message.chat.id, f"Красні сіні - фіолетовий, -300 хп сукуні", reply_markup=create_reply_keyboard10(random_items))
-        game.sukuna.hp -= 300
-        game.player.superhit -= 1 
-        if game.player.superhit == 0:
-            bot.send_message(message.chat.id, f"У вас закінчились пурпурові", reply_markup=create_reply_keyboard10(random_items))
+        bot.send_message(message.chat.id, f"Почати бій?", reply_markup=create_reply_keyboard10())
+    # if message.text == 'бій':
+    #     bot.send_message(message.chat.id, f"Вибери дію:", reply_markup=create_reply_keyboard3())
+    # if message.text == 'захист':
+    #     ran = random(1, 2)
+    #     if ran == 1:
+    #         bot.send_message(message.chat.id, f"Тобі повезло, ти захистився. Удар по сукуні -200 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
+    #         game.sukuna.hp -= 200
+    #     if ran == 2:
+    #         bot.send_message(message.chat.id, f"Тобі не повезло, ти не зміг захиститись. Удар по тобі -100 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
+    #         game.player.hp -= 100
+    # if message.text == 'удар':
+    #     bot.send_message(message.chat.id, f"Ти атакував сукуну. Удар -100 здоров'я!", reply_markup=create_reply_keyboard10(random_items))
+    # if message.text == '🫸🔴🔵🫷🤌🫴⏤͟͟🟣(3 на гру)':
+    #     bot.send_document(message.chat.id, gif1)
+    #     bot.send_message(message.chat.id, f"Красні сіні - фіолетовий, -300 хп сукуні", reply_markup=create_reply_keyboard10(random_items))
+    #     game.sukuna.hp -= 300
+    #     game.player.superhit -= 1 
+    #     if game.player.superhit == 0:
+    #         bot.send_message(message.chat.id, f"У вас закінчились пурпурові", reply_markup=create_reply_keyboard10(random_items))
     if message.text == 'Бій етап 1':
         while game.sukuna.hp >= 600:
             time.sleep(0.8)
@@ -327,29 +330,31 @@ def handle_text(message):
             game.player.dmg += 30
             game.sukuna.dmg += 25
             bot.send_message(message.chat.id, f"Підвищення урону!")
-        if message.text == 'інвентар':
-            random_items = random.sample(loot_items, 4)
-            bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
-            bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
-        if message.text == 'бій':
-            bot.send_message(message.chat.id, f"Вибери дію:", reply_markup=create_reply_keyboard3())
-        if message.text == 'захист':
-            ran = random(1, 2)
-            if ran == 1:
-                bot.send_message(message.chat.id, f"Тобі повезло, ти захистився. Удар по сукуні -200 здоров'я!", reply_markup=create_reply_keyboard11())
-                game.sukuna.hp -= 200
-            if ran == 2:
-                bot.send_message(message.chat.id, f"Тобі не повезло, ти не зміг захиститись. Удар по тобі -100 здоров'я!", reply_markup=create_reply_keyboard11())
-                game.player.hp -= 100
-            if message.text == 'удар':
-                bot.send_message(message.chat.id, f"Ти атакував сукуну. Удар -100 здоров'я!", reply_markup=create_reply_keyboard11())
-            if message.text == '🫸🔴🔵🫷🤌🫴⏤͟͟🟣(3 на гру)':
-                bot.send_document(message.chat.id, gif1)
-                bot.send_message(message.chat.id, f"Красні сіні - фіолетовий", reply_markup=create_reply_keyboard11())
-                game.sukuna.hp -= 300
-                game.player.superhit -= 1
-                if game.player.superhit == 0:
-                    bot.send_message(message.chat.id, f"У вас закінчились пурпурові", reply_markup=create_reply_keyboard11(random_items))
+
+        # if message.text == 'інвентар':
+        #     random_items = random.sample(loot_items, 4)
+        #     bot.send_message(message.chat.id, "Вибери предмет:", reply_markup=create_reply_keyboard4(random_items))
+        #     bot.send_message(message.chat.id, f"Ти маєш {game.player.coins}💰")
+        # if message.text == 'бій':
+        #     bot.send_message(message.chat.id, f"Вибери дію:", reply_markup=create_reply_keyboard3())
+        # if message.text == 'захист':
+        #     ran = random(1, 2)
+        #     if ran == 1:
+        #         bot.send_message(message.chat.id, f"Тобі повезло, ти захистився. Удар по сукуні -200 здоров'я!", reply_markup=create_reply_keyboard11())
+        #         game.sukuna.hp -= 200
+        #     if ran == 2:
+        #         bot.send_message(message.chat.id, f"Тобі не повезло, ти не зміг захиститись. Удар по тобі -100 здоров'я!", reply_markup=create_reply_keyboard11())
+        #         game.player.hp -= 100
+        #     if message.text == 'удар':
+        #         bot.send_message(message.chat.id, f"Ти атакував сукуну. Удар -100 здоров'я!", reply_markup=create_reply_keyboard11())
+        #     if message.text == '🫸🔴🔵🫷🤌🫴⏤͟͟🟣(3 на гру)':
+        #         bot.send_document(message.chat.id, gif1)
+        #         bot.send_message(message.chat.id, f"Красні сіні - фіолетовий", reply_markup=create_reply_keyboard11())
+        #         game.sukuna.hp -= 300
+        #         game.player.superhit -= 1
+        #         if game.player.superhit == 0:
+        #             bot.send_message(message.chat.id, f"У вас закінчились пурпурові", reply_markup=create_reply_keyboard11(random_items))
+
         if message.text == 'Бій етап 2':
             while game.sukuna.hp <= 0:
                 time.sleep(0.8)
